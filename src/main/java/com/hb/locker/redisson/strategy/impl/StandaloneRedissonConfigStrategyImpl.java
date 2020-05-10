@@ -1,18 +1,23 @@
-package com.hb.locker.redisson.config.strategy;
+package com.hb.locker.redisson.strategy.impl;
 
 import com.hb.locker.redisson.config.RedissonProperties;
 import com.hb.locker.redisson.constant.RedissonConstant;
+import com.hb.locker.redisson.strategy.RedissonConfigStrategy;
 import org.redisson.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author snowalker
- * @date 2018/7/12
- * @desc 单机方式Redisson配置
+ * 单机方式
+ *
+ * @author Mr.huang
+ * @since 2020/5/9 16:41
  */
 public class StandaloneRedissonConfigStrategyImpl implements RedissonConfigStrategy {
 
+    /**
+     * the constant logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(StandaloneRedissonConfigStrategyImpl.class);
 
     @Override
@@ -28,10 +33,9 @@ public class StandaloneRedissonConfigStrategyImpl implements RedissonConfigStrat
             if (password != null && !"".equals(password)) {
                 config.useSingleServer().setPassword(password);
             }
-            LOGGER.info("初始化[standalone]方式Config,redisAddress:" + address);
+            LOGGER.info("standalone redisson config init, redisAddress: " + address);
         } catch (Exception e) {
-            LOGGER.error("standalone Redisson init error", e);
-            e.printStackTrace();
+            LOGGER.error("standalone redisson config init error: {}", e);
         }
         return config;
     }

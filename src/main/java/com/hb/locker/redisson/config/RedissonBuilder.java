@@ -1,10 +1,10 @@
 package com.hb.locker.redisson.config;
 
-import com.hb.locker.redisson.config.strategy.ClusterRedissonConfigStrategyImpl;
-import com.hb.locker.redisson.config.strategy.MasterslaveRedissonConfigStrategyImpl;
-import com.hb.locker.redisson.config.strategy.RedissonConfigStrategy;
-import com.hb.locker.redisson.config.strategy.SentinelRedissonConfigStrategyImpl;
-import com.hb.locker.redisson.config.strategy.StandaloneRedissonConfigStrategyImpl;
+import com.hb.locker.redisson.strategy.impl.ClusterRedissonConfigStrategyImpl;
+import com.hb.locker.redisson.strategy.impl.MasterslaveRedissonConfigStrategyImpl;
+import com.hb.locker.redisson.strategy.RedissonConfigStrategy;
+import com.hb.locker.redisson.strategy.impl.SentinelRedissonConfigStrategyImpl;
+import com.hb.locker.redisson.strategy.impl.StandaloneRedissonConfigStrategyImpl;
 import com.hb.locker.redisson.enumutil.RedisConnectionType;
 import org.redisson.Redisson;
 import org.redisson.config.Config;
@@ -58,9 +58,9 @@ public class RedissonBuilder {
      */
     private Config createConfigStragy(RedissonProperties redissonProperties) {
         Objects.requireNonNull(redissonProperties, "redisson config cannot be null");
-        Objects.requireNonNull(redissonProperties.getAddress(), "redisson.lock.server.address cannot be null");
-        Objects.requireNonNull(redissonProperties.getType(), "redisson.lock.server.password cannot be null");
-        Objects.requireNonNull(redissonProperties.getDatabase(), "redisson.lock.server.database cannot be null");
+        Objects.requireNonNull(redissonProperties.getAddress(), "redisson.getLock.server.address cannot be null");
+        Objects.requireNonNull(redissonProperties.getType(), "redisson.getLock.server.password cannot be null");
+        Objects.requireNonNull(redissonProperties.getDatabase(), "redisson.getLock.server.database cannot be null");
         String connectionType = redissonProperties.getType();
         RedissonConfigStrategy redissonConfigStrategy = null;
         /**

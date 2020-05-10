@@ -1,16 +1,17 @@
-package com.hb.locker.redisson.config.strategy;
+package com.hb.locker.redisson.strategy.impl;
 
-import com.snowalker.lock.redisson.config.RedissonProperties;
-import com.snowalker.lock.redisson.constant.GlobalConstant;
-import org.apache.commons.lang3.StringUtils;
+import com.hb.locker.redisson.config.RedissonProperties;
+import com.hb.locker.redisson.constant.RedissonConstant;
+import com.hb.locker.redisson.strategy.RedissonConfigStrategy;
 import org.redisson.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author snowalker
- * @date 2018/7/12
- * @desc 哨兵集群方式Redis连接配置
+ * 哨兵集群方式
+ *
+ * @author Mr.huang
+ * @since 2020/5/9 16:41
  */
 public class SentinelRedissonConfigStrategyImpl implements RedissonConfigStrategy {
 
@@ -25,21 +26,23 @@ public class SentinelRedissonConfigStrategyImpl implements RedissonConfigStrateg
             int database = redissonProperties.getDatabase();
             String[] addrTokens = address.split(",");
             String sentinelAliasName = addrTokens[0];
-            /**设置redis配置文件sentinel.conf配置的sentinel别名*/
-            config.useSentinelServers()
-                    .setMasterName(sentinelAliasName);
+            /**
+             * 设置redis配置文件sentinel.conf配置的sentinel别名
+             */
+            config.useSentinelServers().setMasterName(sentinelAliasName);
             config.useSentinelServers().setDatabase(database);
-            if (StringUtils.isNotBlank(password)) {
+            if (password != null && !"".equals(password)) {
                 config.useSentinelServers().setPassword(password);
             }
-            /**设置sentinel节点的服务IP和端口*/
+            /**
+             * 设置sentinel节点的服务IP和端口
+             */
             for (int i = 1; i < addrTokens.length; i++) {
-                config.useSentinelServers().addSentinelAddress(GlobalConstant.REDIS_CONNECTION_PREFIX.getConstant_value() + addrTokens[i]);
+                config.useSentinelServers().addSentinelAddress(RedissonConstant.REDIS_CONNECTION_PREFIX + addrTokens[i]);
             }
-            LOGGER.info("初始化[sentinel]方式Config,redisAddress:" + address);
+            LOGGER.info("sentinel redisson config init, redisAddress: " + address);
         } catch (Exception e) {
-            LOGGER.error("sentinel Redisson init error", e);
-            e.printStackTrace();
+            LOGGER.error("sentinel redisson config init error: {}", e);
         }
         return config;
     }

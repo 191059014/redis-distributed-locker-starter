@@ -50,20 +50,20 @@ public class RedissonLockerInterceptor {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         RedissonEasyLocker lockAnnotation = method.getAnnotation(RedissonEasyLocker.class);
-        String lockName = lockAnnotation.value();
+        String lockName = lockAnnotation.lockKey();
         int expireSeconds = lockAnnotation.expireSeconds();
-        if (redissonLocker.lock(lockName, expireSeconds)) {
+        if (redissonLocker.getLock(lockName, expireSeconds)) {
             try {
-                LOGGER.info("get redis lock[{}] success, business start...", lockName);
+                LOGGER.info("get redis getLock[{}] success, business start...", lockName);
                 return pjp.proceed();
             } catch (Throwable throwable) {
-                LOGGER.error("get redis lock[{}] occur error: {}", lockName, throwable);
+                LOGGER.error("get redis getLock[{}] occur error: {}", lockName, throwable);
             } finally {
-                redissonLocker.release(lockName);
-                LOGGER.info("release redis lock[{}] success", lockName);
+                redissonLocker.releaseLock(lockName);
+                LOGGER.info("release redis getLock[{}] success", lockName);
             }
         } else {
-            LOGGER.info("get redis lock[{}] failed, business stop...", lockName);
+            LOGGER.info("get redis getLock[{}] failed, business stop...", lockName);
         }
         return null;
     }

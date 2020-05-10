@@ -8,48 +8,61 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author snowalker
- * @date 2018/7/10
- * @desc 分布式锁实现基于Redisson
+ * 基于Redisson的分布式锁
+ *
+ * @author Mr.huang
+ * @since 2020/5/9 16:41
  */
 public class RedissonLocker {
 
+    /**
+     * the constant logger
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RedissonLocker.class);
 
-    RedissonBuilder redissonBuilder;
+    /**
+     * redisson构造器
+     */
+    private RedissonBuilder redissonBuilder;
 
+    /**
+     * 构造方法
+     */
     public RedissonLocker(RedissonBuilder redissonBuilder) {
         this.redissonBuilder = redissonBuilder;
     }
 
     /**
-     * 加锁操作
-     * @return
+     * 获取锁
+     *
+     * @param lockKey       锁名称
+     * @param expireSeconds 过期时间
+     * @return true为成功获取锁
      */
-    public boolean lock(String lockName, long expireSeconds) {
-        RLock rLock = redissonBuilder.getRedisson().getLock(lockName);
+    public boolean getLock(String lockKey, long expireSeconds) {
+        RLock rLock = redissonBuilder.getRedisson().getLock(lockKey);
         boolean getLock = false;
         try {
             getLock = rLock.tryLock(0, expireSeconds, TimeUnit.SECONDS);
             if (getLock) {
-                LOGGER.info("获取Redisson分布式锁[成功],lockName={}", lockName);
+                LOGGER.info("get redisson distributed lock success, lockKey: {}", lockKey);
             } else {
-                LOGGER.info("获取Redisson分布式锁[失败],lockName={}", lockName);
+                LOGGER.info("get redisson distributed lock failed, lockKey: {}", lockKey);
             }
         } catch (InterruptedException e) {
-            LOGGER.error("获取Redisson分布式锁[异常]，lockName=" + lockName, e);
-            e.printStackTrace();
+            LOGGER.error("get redisson distributed lock error, lockKey: {}, e: {}" + lockKey, e);
             return false;
         }
         return getLock;
     }
 
     /**
-     * 解锁
-     * @param lockName
+     * 释放锁
+     *
+     * @param lockKey 锁名称
      */
-    public void release(String lockName) {
-        redissonBuilder.getRedisson().getLock(lockName).unlock();
+    public void releaseLock(String lockKey) {
+        redissonBuilder.getRedisson().getLock(lockKey).unlock();
     }
 
 }

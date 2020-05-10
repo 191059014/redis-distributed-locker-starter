@@ -22,7 +22,7 @@ public @interface RedissonEasyLocker {
     /**
      * 分布式锁名称
      */
-    String value();
+    String lockKey();
 
     /**
      * 锁超时时间，默认十秒
