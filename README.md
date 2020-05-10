@@ -14,10 +14,10 @@
 ```
 - 配置
 ```
-redisson.getLock.server.address=ip1,ip2,ip3 // redis主机地址，ip：port，有多个用半角逗号分隔
-redisson.getLock.server.type=standalone // redis连接方式：standalone-单节点部署方式；sentinel-哨兵部署方式；cluster-集群方式；masterslave-主从部署方式；
-redisson.getLock.server.password=123456 // redis密码
-redisson.getLock.server.database=0 // redis数据库索引
+redisson.config.server.address=ip1,ip2,ip3 // redis主机地址，ip：port，有多个用半角逗号分隔
+redisson.config.server.type=standalone // redis连接方式：standalone-单节点部署方式；sentinel-哨兵部署方式；cluster-集群方式；masterslave-主从部署方式；
+redisson.config.server.password=123456 // redis密码
+redisson.config.server.database=0 // redis数据库索引
 ```
 - 注解方式
 ```

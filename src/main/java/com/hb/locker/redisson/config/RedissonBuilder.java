@@ -58,9 +58,9 @@ public class RedissonBuilder {
      */
     private Config createConfigStragy(RedissonProperties redissonProperties) {
         Objects.requireNonNull(redissonProperties, "redisson config cannot be null");
-        Objects.requireNonNull(redissonProperties.getAddress(), "redisson.getLock.server.address cannot be null");
-        Objects.requireNonNull(redissonProperties.getType(), "redisson.getLock.server.password cannot be null");
-        Objects.requireNonNull(redissonProperties.getDatabase(), "redisson.getLock.server.database cannot be null");
+        Objects.requireNonNull(redissonProperties.getAddress(), "redisson.config.server.address cannot be null");
+        Objects.requireNonNull(redissonProperties.getType(), "redisson.config.server.password cannot be null");
+        Objects.requireNonNull(redissonProperties.getDatabase(), "redisson.config.server.database cannot be null");
         String connectionType = redissonProperties.getType();
         RedissonConfigStrategy redissonConfigStrategy = null;
         /**
