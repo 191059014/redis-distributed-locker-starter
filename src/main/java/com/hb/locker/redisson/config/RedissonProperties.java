@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Mr.huang
  * @since 2020/5/9 16:41
  */
-@ConfigurationProperties(prefix = "redisson.config.server")
+@ConfigurationProperties(prefix = "redisson.lock.config")
 public class RedissonProperties {
 
     /**
