@@ -29,7 +29,7 @@ public class RedissonProperties {
     /**
      * 数据库索引
      */
-    private Integer database;
+    private int database;
 
     public String getAddress() {
         return address;
