@@ -54,16 +54,16 @@ public class RedissonLockerInterceptor {
         int expireSeconds = lockAnnotation.expireSeconds();
         if (redissonLocker.getLock(lockName, expireSeconds)) {
             try {
-                LOGGER.info("get redis getLock[{}] success, business start...", lockName);
+                LOGGER.info("获取分布式锁成功[{}], 开始处理业务...", lockName);
                 return pjp.proceed();
             } catch (Throwable throwable) {
-                LOGGER.error("get redis getLock[{}] occur error: {}", lockName, throwable);
+                LOGGER.error("获取分布式锁异常[{}], e: {}", lockName, throwable);
             } finally {
                 redissonLocker.releaseLock(lockName);
-                LOGGER.info("release redis getLock[{}] success", lockName);
+                LOGGER.info("释放分布式锁完成[{}]", lockName);
             }
         } else {
-            LOGGER.info("get redis getLock[{}] failed, business stop...", lockName);
+            LOGGER.info("获取分布式锁失败[{}], 停止处理业务...", lockName);
         }
         return null;
     }
