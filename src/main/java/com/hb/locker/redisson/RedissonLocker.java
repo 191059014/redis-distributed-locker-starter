@@ -45,12 +45,12 @@ public class RedissonLocker {
         try {
             getLock = rLock.tryLock(0, expireSeconds, TimeUnit.SECONDS);
             if (getLock) {
-                LOGGER.info("get redisson distributed lock success, lockKey: {}", lockKey);
+                LOGGER.info("获取分布式锁成功[{}]", lockKey);
             } else {
-                LOGGER.info("get redisson distributed lock failed, lockKey: {}", lockKey);
+                LOGGER.info("获取分布式锁失败[{}]", lockKey);
             }
         } catch (InterruptedException e) {
-            LOGGER.error("get redisson distributed lock error, lockKey: {}, e: {}" + lockKey, e);
+            LOGGER.error("获取分布式锁异常[{}], e: {}", lockKey, e);
             return false;
         }
         return getLock;
@@ -63,6 +63,7 @@ public class RedissonLocker {
      */
     public void releaseLock(String lockKey) {
         redissonBuilder.getRedisson().getLock(lockKey).unlock();
+        LOGGER.info("释放分布式锁完成[{}]", lockKey);
     }
 
 }
